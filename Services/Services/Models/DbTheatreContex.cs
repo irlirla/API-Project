@@ -4,19 +4,15 @@ using System.Reflection;
 
 namespace Services.Models
 {
-    public class MovieContext : DbContext
+    internal class DbTheatreContext : DbContext
     {
-        public MovieContext(DbContextOptions<MovieContext> opt) : base(opt)
-        {
-
-        }
-
         public DbSet<Movie> Movies { get; set; }
+        //public DbSet<Franchise> Franchises { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"server = localhost\SQLEXPRESS; Database = MovieService; Trusted_Connection = True;");
+            optionsBuilder.UseSqlServer(@"server = localhost\SQLEXPRESS; Database = Theatre; Trusted_Connection = True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,11 +24,10 @@ namespace Services.Models
         {
             public void Configure(EntityTypeBuilder<Movie> builder)
             {
-                builder.ToTable("Franchise");
-                builder.HasKey();
-                builder.HasOne(movie => movie.FranchiseName).WithMany(franchise => franchise.Movies);
+                builder.ToTable("Movie");
+                builder.HasKey(x => x.ID);
+                builder.HasOne(x => x.FranchiseName).WithMany(x => x.Movies);
             }
         }
     }
 }
-

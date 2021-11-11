@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Services.Commands.UserCommands
+namespace Services.Commands.Interfaces
 {
-    public class GetUsers
+    public interface IPostCommand<T>
     {
+        void Execute(T t);
     }
 }

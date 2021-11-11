@@ -4,7 +4,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Services.Commands.BookCommands;
+using Services.Commands.HeroCommands;
+using Services.Commands.Interfaces;
+using Services.Commands.MovieCommands;
+using Services.Commands.UserCommands;
 using Services.Models;
+using Services.Validators;
 using System;
 
 namespace Services
@@ -22,7 +28,36 @@ namespace Services
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            //services.AddScoped<IMovieRepo, SqlMovieRepo>();
+
+            services.AddSingleton<IUserValidator, UserValidator>();
+            services.AddSingleton<IBookValidator, BookValidator>();
+            services.AddSingleton<IHeroValidator, HeroValidator>();
+            services.AddSingleton<IMovieValidator, MovieValidator>();
+
+            services.AddTransient<IGetAllCommand<UserDTO>, GetUsersCommand>();
+            services.AddTransient<IGetByIDCommand<UserDTO>, GetUserByIDCommand>();
+            services.AddTransient<IPostCommand<User>, PostUserCommand>();
+            services.AddTransient<IPutCommand<User>, PutUserCommand>();
+            services.AddTransient<IDeleteCommand<User>, DeleteUserCommand>();
+
+            services.AddTransient<IGetAllCommand<BookDTO>, GetBooksCommand>();
+            services.AddTransient<IGetByIDCommand<BookDTO>, GetBookByIDCommand>();
+            services.AddTransient<IPostCommand<Book>, PostBookCommand>();
+            services.AddTransient<IPutCommand<Book>, PutBookCommand>();
+            services.AddTransient<IDeleteCommand<Book>, DeleteBookCommand>();
+
+            services.AddTransient<IAsyncGetAllCommand<HeroDTO>, GetHeroesCommand>();
+            services.AddTransient<IAsyncGetByIDCommand<HeroDTO>, GetHeroByIDCommand>();
+            services.AddTransient<IAsyncPostCommand<Hero>, PostHeroCommand>();
+            services.AddTransient<IAsyncPutCommand<Hero>, PutHeroCommand>();
+            services.AddTransient<IAsyncDeleteCommand<Hero>, DeleteHeroCommand>();
+
+            services.AddTransient<IAsyncGetAllCommand<MovieDTO>, GetMoviesCommand>();
+            services.AddTransient<IAsyncGetByIDCommand<MovieDTO>, GetMovieByIDCommand>();
+            services.AddTransient<IAsyncPostCommand<Movie>, PostMovieCommand>();
+            services.AddTransient<IAsyncPutCommand<Movie>, PutMovieCommand>();
+            services.AddTransient<IAsyncDeleteCommand<Movie>, DeleteMovieCommand>();
+
             services.AddControllers();
 
             services.AddMassTransit(cfg =>

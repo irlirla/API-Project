@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Services.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Services.Models
+namespace FranchiseService.Models
 {
     public class FranchiseDTO
     {

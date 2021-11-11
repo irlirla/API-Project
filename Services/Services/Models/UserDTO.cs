@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace Services.Models
 {
-    public class Franchise
+    public class UserDTO
     {
-        public int FranchiseID { get; set; }
+        public int Age { get; set; }
+
         public string Name { get; set; }
-        public List<Movie> Movies { get; set; }
+
+        public string Address { get; set; }
     }
 }

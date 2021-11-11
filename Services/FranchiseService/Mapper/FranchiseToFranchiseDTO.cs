@@ -1,6 +1,7 @@
-﻿using Services.Models;
+﻿using FranchiseService.Models;
+using Services.Models;
 
-namespace Services.Mappers
+namespace FranchiseService.Mapper
 {
     public class FranchiseToFranchiseDTO : IMapper<Franchise, FranchiseDTO>
     {

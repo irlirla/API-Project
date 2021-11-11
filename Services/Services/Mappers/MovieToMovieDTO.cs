@@ -12,7 +12,7 @@ namespace Services.Mappers
             }
             else
             {
-                return new MovieDTO { Name = movie.Name, FranchiseName = movie.FranchiseName };
+                return new MovieDTO { Name = movie.Name, FranchiseName = movie.FranchiseName.Name };
             }
         }
     }

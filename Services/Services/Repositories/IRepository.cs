@@ -7,10 +7,10 @@ namespace Services.Repositories
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> Get();
-        T GetById(int id);
-        void Post(T t);
-        void Put(T t);
-        void Delete(int id);
+        (IEnumerable<T>, string) Get();
+        (T, string) GetById(int id);
+        string Post(T t);
+        string Put(T t);
+        string Delete(int id);
     }
 }

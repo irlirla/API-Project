@@ -1,34 +1,72 @@
 ﻿using Services.Models;
-using System;
+using Services.Validators;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services.Repositories
 {
-    public class MovieRepo : IRepository<Movie>
+    public class MovieRepo : IAsyncRepository<Movie>
     {
-        public void Delete(int id)
+        private readonly MovieValidator _validator;
+        DbTheatreContext Theatre = new();
+        const string str1 = "Success!";
+        const string str2 = "Something went wrong!";
+
+        public MovieRepo(MovieValidator validator)
         {
-            throw new NotImplementedException();
+            _validator = validator;
         }
 
-        public IEnumerable<Movie> Get()
+        public async Task<string> Delete(int id)
         {
-            throw new NotImplementedException();
+            var movie = await Theatre.Movies.SingleAsync(x => x.ID == id);
+            Theatre.Remove(movie);
+            await Theatre.SaveChangesAsync();
+            return str1;
         }
 
-        public Movie GetById(int id)
+        public async Task<IEnumerable<Movie>> Get()
         {
-            throw new NotImplementedException();
+            IAsyncEnumerable<Movie> movies = Theatre.Movies.AsAsyncEnumerable();
+            List<Movie> movies1 = await movies.ToListAsync();
+            return movies1;
         }
 
-        public void Post(Movie t)
+        public async Task<Movie> GetById(int id)
         {
-            throw new NotImplementedException();
+            IAsyncEnumerable<Movie> movies = Theatre.Movies.AsAsyncEnumerable().Where(x => x.ID == id);
+            List<Movie> movies1 = await movies.ToListAsync();
+            return movies1[0];
         }
 
-        public void Put(Movie t)
+        public async Task<string> Post(Movie movie)
         {
-            throw new NotImplementedException();
+            if (_validator.Validate(movie).IsValid is true &&
+                await Theatre.Movies.AnyAsync(x => x.ID == movie.ID) is false)
+            {
+                await Theatre.Movies.AddAsync(new Movie());
+                await Theatre.SaveChangesAsync();
+                return str1;
+            }
+            else
+            {
+                return str2;
+            }
+        }
+
+        public async Task<string> Put(Movie movie)
+        {
+            if (_validator.Validate(movie).IsValid is true)
+            {
+                await Theatre.Movies.AddAsync(new Movie());
+                await Theatre.SaveChangesAsync();
+                return str1;
+            }
+            else
+            {
+                return str2;
+            }
         }
     }
 }

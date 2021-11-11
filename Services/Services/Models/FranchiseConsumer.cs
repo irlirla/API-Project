@@ -1,7 +1,4 @@
 ﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Services.Models
@@ -10,7 +7,7 @@ namespace Services.Models
     {
         public async Task Consume(ConsumeContext<FranchiseRequest> context)
         {
-            await context.RespondAsync(new FranchiseDTO { Name = "" });
+            await context.RespondAsync(new FranchiseDTO { Name = ""});
         }
     }
 }
