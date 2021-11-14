@@ -10,10 +10,10 @@ namespace Services.Commands.HeroCommands
 {
     public class GetHeroesCommand : IAsyncGetAllCommand<HeroDTO>
     {
-        private readonly HeroRepo _repository;
-        private readonly HeroToHeroDTO _mapper;
+        private readonly IAsyncRepository<Hero> _repository;
+        private readonly IMapper<Hero, HeroDTO> _mapper;
 
-        public GetHeroesCommand(HeroRepo repository, HeroToHeroDTO mapper)
+        public GetHeroesCommand(IAsyncRepository<Hero> repository, IMapper<Hero, HeroDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

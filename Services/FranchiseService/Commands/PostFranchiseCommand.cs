@@ -7,9 +7,9 @@ namespace FranchiseService.Commands
 {
     public class PostFranchiseCommand : IAsyncPostCommand<Franchise>
     {
-        private readonly FranchiseRepo _repository;
+        private readonly IAsyncRepository<Franchise> _repository;
 
-        public PostFranchiseCommand(FranchiseRepo repository)
+        public PostFranchiseCommand(IAsyncRepository<Franchise> repository)
         {
             _repository = repository;
         }

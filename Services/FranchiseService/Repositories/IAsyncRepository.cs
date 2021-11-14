@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FranchiseService
 {
-    public interface IAsyncRepository<T>
+    public interface IAsyncRepository<T> where T : class
     {
         Task<IEnumerable<T>> Get();
         Task<T> GetById(int id);

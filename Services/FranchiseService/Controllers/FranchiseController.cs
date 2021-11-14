@@ -11,8 +11,9 @@ namespace FranchiseService.Controllers
     public class FranchiseController : ControllerBase
     {
         [HttpPost]
-        public Task Post([FromServices] IAsyncPostCommand<Franchise> cmd, [FromBody] Franchise franchise)
+        public Task Post([FromServices] IAsyncPostCommand<Franchise> cmd, [FromBody] Franchise franchise) /*[FromServices] IRequsetClient<FranchiseRequest>*/
         {
+            //try {req.GetResponse<FranchiseResponse>(new FranchiseRequest { FranchiseID = })
             return cmd.Execute(franchise);
         }
 

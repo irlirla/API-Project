@@ -19,7 +19,7 @@ namespace Services.Controllers
         }
 
         [HttpGet("{id}")]
-        public BookDTO GetBookById([FromServices] IGetByIDCommand<BookDTO> cmd, [FromQuery] int id)
+        public BookDTO GetBookById([FromServices] IGetByIDCommand<BookDTO> cmd, int id)
         {
             return cmd.Execute(id);
         }
@@ -30,8 +30,8 @@ namespace Services.Controllers
             return cmd.Execute();
         }
 
-        [HttpDelete]
-        public void Delete([FromServices] IDeleteCommand<Book> cmd, [FromQuery] int id)
+        [HttpDelete("{id}")]
+        public void Delete([FromServices] IDeleteCommand<Book> cmd, int id)
         {
             cmd.Execute(id);
         }

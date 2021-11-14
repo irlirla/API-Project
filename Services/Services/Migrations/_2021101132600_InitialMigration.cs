@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FranchiseService.Migrations
+namespace Services.Migrations
 {
     [DbContext(typeof(DbContext))]
     [Migration("_2021061131800_InitialMigration")]

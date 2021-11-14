@@ -7,9 +7,9 @@ namespace Services.Commands.MovieCommands
 {
     public class PutMovieCommand : IAsyncPutCommand<Movie>
     {
-        private readonly MovieRepo _repository;
+        private readonly IAsyncRepository<Movie> _repository;
 
-        public PutMovieCommand(MovieRepo repository)
+        public PutMovieCommand(IAsyncRepository<Movie> repository)
         {
             _repository = repository;
         }

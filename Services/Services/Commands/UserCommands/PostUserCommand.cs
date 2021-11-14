@@ -8,9 +8,9 @@ namespace Services.Commands.UserCommands
 {
     public class PostUserCommand : IPostCommand<User>
     {
-        private readonly UserRepo _repository;
+        private readonly IRepository<User> _repository;
 
-        public PostUserCommand(UserRepo repository)
+        public PostUserCommand(IRepository<User> repository)
         {
             _repository = repository;
         }

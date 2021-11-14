@@ -9,10 +9,10 @@ namespace Services.Commands.BookCommands
 {
     public class GetBooksCommand : IGetAllCommand<BookDTO>
     {
-        private readonly BookRepo _repository;
-        private readonly BookToBookDTO _mapper;
+        private readonly IRepository<Book> _repository;
+        private readonly IMapper<Book, BookDTO> _mapper;
 
-        public GetBooksCommand(BookRepo repository, BookToBookDTO mapper)
+        public GetBooksCommand(IRepository<Book> repository, IMapper<Book, BookDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

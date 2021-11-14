@@ -3,6 +3,7 @@ using FranchiseService.Validator;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FranchiseService.Repositories
 {
@@ -11,9 +12,9 @@ namespace FranchiseService.Repositories
         DbTheatreContext Theatre = new();
         const string str1 = "Success!";
         const string str2 = "Something went wrong!";
-        private readonly FranchiseValidator _validator;
+        private readonly IFranchiseValidator _validator;
 
-        public FranchiseRepo(FranchiseValidator validator)
+        public FranchiseRepo(IFranchiseValidator validator)
         {
             _validator = validator;
         }

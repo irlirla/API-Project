@@ -2,6 +2,6 @@
 {
     public class FranchiseRequest
     {
-        public int FranchiseID { get; set; }
+        public int FranchiseID { get; }
     }
 }

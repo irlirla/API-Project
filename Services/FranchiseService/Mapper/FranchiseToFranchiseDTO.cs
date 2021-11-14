@@ -1,5 +1,4 @@
 ﻿using FranchiseService.Models;
-using Services.Models;
 
 namespace FranchiseService.Mapper
 {

@@ -6,9 +6,9 @@ namespace Services.Commands.UserCommands
 {
     public class PutUserCommand : IPutCommand<User>
     {
-        private readonly UserRepo _repository;
+        private readonly IRepository<User> _repository;
 
-        public PutUserCommand(UserRepo repository)
+        public PutUserCommand(IRepository<User> repository)
         {
             _repository = repository;
         }

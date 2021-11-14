@@ -19,13 +19,13 @@ namespace Services.Controllers
         }
 
         [HttpGet("{id}")]
-        public UserDTO GetById([FromServices] IGetByIDCommand<UserDTO> cmd, [FromQuery] int id)
+        public UserDTO GetById([FromServices] IGetByIDCommand<UserDTO> cmd, int id)
         {
             return cmd.Execute(id);
         }
 
-        [HttpDelete]
-        public void Delete([FromServices] IDeleteCommand<User> cmd, [FromQuery] int id)
+        [HttpDelete("{id}")]
+        public void Delete([FromServices] IDeleteCommand<User> cmd, int id)
         {
             cmd.Execute(id);
         }

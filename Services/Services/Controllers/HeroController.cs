@@ -19,7 +19,7 @@ namespace Services.Controllers
         }
 
         [HttpGet("{id}")]
-        public Task<HeroDTO> GetById([FromServices] IAsyncGetByIDCommand<HeroDTO> cmd, [FromQuery] int id)
+        public Task<HeroDTO> GetById([FromServices] IAsyncGetByIDCommand<HeroDTO> cmd, int id)
         {
             return cmd.Execute(id);
         }
@@ -30,8 +30,8 @@ namespace Services.Controllers
             return cmd.Execute();
         }
 
-        [HttpDelete]
-        public Task Delete([FromServices] IAsyncDeleteCommand<Hero> cmd, [FromQuery] int id)
+        [HttpDelete("{id}")]
+        public Task Delete([FromServices] IAsyncDeleteCommand<Hero> cmd, int id)
         {
             return cmd.Execute(id);
         }

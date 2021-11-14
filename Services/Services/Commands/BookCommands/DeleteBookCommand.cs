@@ -6,9 +6,9 @@ namespace Services.Commands.BookCommands
 {
     public class DeleteBookCommand : IDeleteCommand<Book>
     {
-        private readonly BookRepo _repository;
+        private readonly IRepository<Book> _repository;
 
-        public DeleteBookCommand(BookRepo repository)
+        public DeleteBookCommand(IRepository<Book> repository)
         {
             _repository = repository;
         }

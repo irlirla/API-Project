@@ -6,9 +6,9 @@ namespace Services.Commands.BookCommands
 {
     public class PutBookCommand : IPutCommand<Book>
     {
-        private readonly BookRepo _repository;
+        private readonly IRepository<Book> _repository;
 
-        public PutBookCommand(BookRepo repository)
+        public PutBookCommand(IRepository<Book> repository)
         {
             _repository = repository;
         }

@@ -2,10 +2,9 @@
 
 namespace FranchiseService.Models
 {
-    public class Franchise
+    public class FranchiseDTO
     {
-        public int FranchiseID { get; set; }
-        public string Name { get; set; }
+        public string Name { get; init; }
         public ICollection<Movie> Movies { get; set; }
     }
 }

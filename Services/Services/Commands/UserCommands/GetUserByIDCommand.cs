@@ -7,10 +7,10 @@ namespace Services.Commands.UserCommands
 {
     public class GetUserByIDCommand : IGetByIDCommand<UserDTO>
     {
-        private readonly UserRepo _repository;
-        private readonly UserToUserDTO _mapper;
+        private readonly IRepository<User> _repository;
+        private readonly IMapper<User,UserDTO> _mapper;
 
-        public GetUserByIDCommand(UserRepo repository, UserToUserDTO mapper)
+        public GetUserByIDCommand(IRepository<User> repository, IMapper<User, UserDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

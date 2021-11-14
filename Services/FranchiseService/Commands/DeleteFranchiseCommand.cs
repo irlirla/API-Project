@@ -8,9 +8,9 @@ namespace FranchiseService.Commands
 {
     public class DeleteFranchiseCommand : IAsyncDeleteCommand<Franchise>
     {
-        private readonly FranchiseRepo _repository;
+        private readonly IAsyncRepository<Franchise> _repository;
 
-        public DeleteFranchiseCommand(FranchiseRepo repository)
+        public DeleteFranchiseCommand(IAsyncRepository<Franchise> repository)
         {
             _repository = repository;
         }

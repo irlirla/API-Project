@@ -10,10 +10,10 @@ namespace FranchiseService.Commands
 {
     public class GetFranchisesCommand : IAsyncGetAllCommand<FranchiseDTO>
     {
-        private readonly FranchiseRepo _repository;
-        private readonly FranchiseToFranchiseDTO _mapper;
+        private readonly IAsyncRepository<Franchise> _repository;
+        private readonly IMapper<Franchise, FranchiseDTO> _mapper;
 
-        public GetFranchisesCommand(FranchiseRepo repository, FranchiseToFranchiseDTO mapper)
+        public GetFranchisesCommand(IAsyncRepository<Franchise> repository, IMapper<Franchise, FranchiseDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

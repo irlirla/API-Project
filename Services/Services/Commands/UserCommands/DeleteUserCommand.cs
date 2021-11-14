@@ -10,9 +10,9 @@ namespace Services.Commands.UserCommands
 {
     public class DeleteUserCommand : IDeleteCommand<User>
     {
-        private readonly UserRepo _repository;
+        private readonly IRepository<User> _repository;
 
-        public DeleteUserCommand(UserRepo repository)
+        public DeleteUserCommand(IRepository<User> repository)
         {
             _repository = repository;
         }

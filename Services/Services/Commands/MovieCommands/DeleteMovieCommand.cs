@@ -7,9 +7,9 @@ namespace Services.Commands.MovieCommands
 {
     public class DeleteMovieCommand : IAsyncDeleteCommand<Movie>
     {
-        private readonly MovieRepo _repository;
+        private readonly IAsyncRepository<Movie> _repository;
 
-        public DeleteMovieCommand(MovieRepo repository)
+        public DeleteMovieCommand(IAsyncRepository<Movie> repository)
         {
             _repository = repository;
         }

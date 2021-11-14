@@ -10,10 +10,10 @@ namespace Services.Commands.MovieCommands
 {
     public class GetMoviesCommand : IAsyncGetAllCommand<MovieDTO>
     {
-        private readonly MovieRepo _repository;
+        private readonly IAsyncRepository<Movie> _repository;
         private readonly IMapper<Movie, MovieDTO> _mapper;
 
-        public GetMoviesCommand(MovieRepo repository, MovieToMovieDTO mapper)
+        public GetMoviesCommand(IAsyncRepository<Movie> repository, IMapper<Movie, MovieDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

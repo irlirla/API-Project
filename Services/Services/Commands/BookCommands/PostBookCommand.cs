@@ -6,9 +6,9 @@ namespace Services.Commands.BookCommands
 {
     public class PostBookCommand : IPostCommand<Book>
     {
-        private readonly BookRepo _repository;
+        private readonly IRepository<Book> _repository;
 
-        public PostBookCommand(BookRepo repository)
+        public PostBookCommand(IRepository<Book> repository)
         {
             _repository = repository;
         }

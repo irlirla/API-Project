@@ -8,10 +8,10 @@ namespace Services.Commands.HeroCommands
 {
     public class GetHeroByIDCommand : IAsyncGetByIDCommand<HeroDTO>
     {
-        private readonly HeroRepo _repository;
-        private readonly HeroToHeroDTO _mapper;
+        private readonly IAsyncRepository<Hero> _repository;
+        private readonly IMapper<Hero, HeroDTO> _mapper;
 
-        public GetHeroByIDCommand(HeroRepo repository, HeroToHeroDTO mapper)
+        public GetHeroByIDCommand(IAsyncRepository<Hero> repository, IMapper<Hero, HeroDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

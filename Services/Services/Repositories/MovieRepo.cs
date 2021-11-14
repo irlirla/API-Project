@@ -1,4 +1,5 @@
-﻿using Services.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Services.Models;
 using Services.Validators;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ namespace Services.Repositories
 {
     public class MovieRepo : IAsyncRepository<Movie>
     {
-        private readonly MovieValidator _validator;
+        private readonly IMovieValidator _validator;
         DbTheatreContext Theatre = new();
         const string str1 = "Success!";
         const string str2 = "Something went wrong!";
 
-        public MovieRepo(MovieValidator validator)
+        public MovieRepo(IMovieValidator validator)
         {
             _validator = validator;
         }
@@ -42,7 +43,7 @@ namespace Services.Repositories
 
         public async Task<string> Post(Movie movie)
         {
-            if (_validator.Validate(movie).IsValid is true &&
+            if (_validator.Validate(movie).IsValid &&
                 await Theatre.Movies.AnyAsync(x => x.ID == movie.ID) is false)
             {
                 await Theatre.Movies.AddAsync(new Movie());
@@ -57,7 +58,7 @@ namespace Services.Repositories
 
         public async Task<string> Put(Movie movie)
         {
-            if (_validator.Validate(movie).IsValid is true)
+            if (_validator.Validate(movie).IsValid)
             {
                 await Theatre.Movies.AddAsync(new Movie());
                 await Theatre.SaveChangesAsync();

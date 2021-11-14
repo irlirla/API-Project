@@ -7,9 +7,9 @@ namespace Services.Commands.HeroCommands
 {
     public class PutHeroCommand : IAsyncPutCommand<Hero>
     {
-        private readonly HeroRepo _repository;
+        private readonly IAsyncRepository<Hero> _repository;
 
-        public PutHeroCommand(HeroRepo repository)
+        public PutHeroCommand(IAsyncRepository<Hero> repository)
         {
             _repository = repository;
         }

@@ -16,39 +16,37 @@ namespace Services.Repositories
         const string str1 = "Success!";
         const string str2 = "Something's wrong!";
         readonly SqlConnection connection = new(@"server=localhost\SQLEXPRESS; Database=HPCharacters; Trusted_Connection=True;");
-        private readonly HeroValidator _validator;
+        private readonly IHeroValidator _validator;
 
-        public HeroRepo(HeroValidator validator)
+        public HeroRepo(IHeroValidator validator)
         {
             _validator = validator;
         }
 
         public async Task<string> Delete(int id)
         {
-            try
-            {
-                SqlCommand cmd = new($"Delete from HPCharacters.dbo.Heroes where Heroes.ID = {id}", connection);
-                connection.Open();
-                await cmd.ExecuteNonQueryAsync();
-                connection.Close();
-                return str1;
-            }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
+            StringBuilder sb = new($"Delete from HPCharacters.dbo.Heroes where Heroes.ID = {id}");
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText = sb.ToString();
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+            return str1;
         }
 
         public async Task<IEnumerable<Hero>> Get()
         {
-            StringBuilder sb = new("select Heroes.ID, [First Name], [Second Name], [Dumbledore's Army], Faculties.Faculty ");
-            sb.Append("from HPCharacters.dbo.Heroes ");
-            sb.Append("inner join HPCharacters.dbo.Faculties on Heroes.Faculty = Faculties.ID");
-            SqlDataAdapter da = new(sb.ToString(), connection);
+            StringBuilder sb = new("select * ");
+            sb.Append(" from HPCharacters.dbo.Heroes ");
+            using SqlDataAdapter da = new(sb.ToString(), connection);
 
+            connection.Open();
             DataTable dt = new();
-            var reader = await connection.CreateCommand().ExecuteReaderAsync();
+            var command = connection.CreateCommand();
+            command.CommandText = sb.ToString();
+            var reader = await command.ExecuteReaderAsync();
             dt.Load(reader);
+            connection.Close();
 
             List<Hero> heroes = new();
             if (dt.Rows.Count > 0)
@@ -56,10 +54,10 @@ namespace Services.Repositories
                 heroes = dt.Rows.Cast<DataRow>()
                     .Select(x => new Hero()
                     {
-                        ID = x.Field<int>("ID"),
+                        ID = x.Field<Int16>("ID"),
                         FirstName = x.Field<string>("First Name"),
                         SecondName = x.Field<string>("Second Name"),
-                        Fac = x.Field<int>("Faculty"),
+                        Fac = x.Field<Int16>("Faculty"),
                         Army = x.Field<bool>("Dumbledore's Army")
                     }).ToList();
                 return heroes;
@@ -72,15 +70,18 @@ namespace Services.Repositories
 
         public async Task<Hero> GetById(int id)
         {
-            StringBuilder sb = new("select top 1 Heroes.ID, [First Name], [Second Name], [Dumbledore's Army], Faculties.Faculty ");
-            sb.Append("from HPCharacters.dbo.Heroes ");
-            sb.Append("inner join HPCharacters.dbo.Faculties on Heroes.Faculty = Faculties.ID ");
+            StringBuilder sb = new("select * ");
+            sb.Append(" from HPCharacters.dbo.Heroes ");
             sb.Append($"where Heroes.ID = {id}");
             SqlDataAdapter da = new(sb.ToString(), connection);
             DataTable dt = new();
 
-            var reader = await connection.CreateCommand().ExecuteReaderAsync();
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText = sb.ToString();
+            var reader = await command.ExecuteReaderAsync();
             dt.Load(reader);
+            connection.Close();
 
             List<Hero> heroes = new();
 
@@ -90,10 +91,10 @@ namespace Services.Repositories
                     .Cast<DataRow>()
                     .Select(x => new Hero()
                     {
-                        ID = x.Field<int>("ID"),
+                        ID = x.Field<Int16>("ID"),
                         FirstName = x.Field<string>("First Name"),
                         SecondName = x.Field<string>("Second Name"),
-                        Fac = x.Field<int>("Faculty"),
+                        Fac = x.Field<Int16>("Faculty"),
                         Army = x.Field<bool>("Dumbledore's Army")
                     }).ToList();
                 return heroes[0];
@@ -106,45 +107,33 @@ namespace Services.Repositories
 
         public async Task<string> Post(Hero hero)
         {
-            try
+            if (_validator.Validate(hero).IsValid)
             {
-                if (_validator.Validate(hero).IsValid is true)
-                {
-                    StringBuilder sb = new($"insert into HPCharacters.dbo.Heroes values ('{hero.ID}', '{hero.FirstName}', ");
-                    sb.Append($"'{hero.SecondName}', '{hero.Fac}','{hero.Army}')");
-                    SqlCommand cmd = new(sb.ToString());
-                    connection.Open();
-                    await cmd.ExecuteNonQueryAsync();
-                    connection.Close();
-                    return str1;
-                }
+                StringBuilder sb = new($"insert into HPCharacters.dbo.Heroes values ('{hero.ID}', '{hero.FirstName}', ");
+                sb.Append($"'{hero.SecondName}', '{hero.Fac}','{hero.Army}')");
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = sb.ToString();
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+                return str1;
+            }
                 else return str2;
-            }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
         }
 
         public async Task<string> Put(Hero hero)
         {
-            if (_validator.Validate(hero).IsValid is true)
+            if (_validator.Validate(hero).IsValid)
             {
-                try
-                {
-                    StringBuilder sb = new($"Update HPCharacters.dbo.Heroes set [First Name] = '{hero.FirstName}', ");
-                    sb.Append($"[Second Name] = '{hero.SecondName}', [Faculty] = {hero.Fac}, [Army] = {hero.Army}");
-                    sb.Append($"where Heroes.ID = {hero.ID}");
-                    SqlCommand cmd = new(sb.ToString(), connection);
-                    connection.Open();
-                    await cmd.ExecuteNonQueryAsync();
-                    connection.Close();
-                    return str1;
-                }
-                catch (Exception e)
-                {
-                    return e.Message;
-                }
+                StringBuilder sb = new($"Update HPCharacters.dbo.Heroes set [First Name] = '{hero.FirstName}', ");
+                sb.Append($"[Second Name] = '{hero.SecondName}', [Faculty] = {hero.Fac}, [Army] = {hero.Army}");
+                sb.Append($"where Heroes.ID = {hero.ID}");
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = sb.ToString();
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+                return str1;
             }
             else
             {

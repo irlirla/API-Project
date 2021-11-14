@@ -25,7 +25,7 @@ namespace FranchiseService.Models
             {
                 builder.ToTable("Franchise");
                 builder.HasKey(x => x.FranchiseID);
-                builder.HasMany(x => x.Movies).WithOne(x => x.FranchiseName);
+                builder.HasMany(x => x.Movies);
             }
         }
     }

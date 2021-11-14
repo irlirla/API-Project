@@ -9,9 +9,12 @@ using Services.Commands.HeroCommands;
 using Services.Commands.Interfaces;
 using Services.Commands.MovieCommands;
 using Services.Commands.UserCommands;
+using Services.Mappers;
 using Services.Models;
+using Services.Repositories;
 using Services.Validators;
 using System;
+using System.Collections.Generic;
 
 namespace Services
 {
@@ -29,10 +32,23 @@ namespace Services
         {
             services.AddMemoryCache();
 
+            services.AddSingleton<List<string>>();
+            services.AddSingleton<List<int>>();
+
+            services.AddScoped<IRepository<Book>, BookRepo>();
+            services.AddScoped<IAsyncRepository<Hero>, HeroRepo>();
+            services.AddScoped<IRepository<User>, UserRepo>();
+            services.AddScoped<IAsyncRepository<Movie>, MovieRepo>();
+
             services.AddSingleton<IUserValidator, UserValidator>();
             services.AddSingleton<IBookValidator, BookValidator>();
             services.AddSingleton<IHeroValidator, HeroValidator>();
             services.AddSingleton<IMovieValidator, MovieValidator>();
+
+            services.AddSingleton<IMapper<User, UserDTO>, UserToUserDTO>();
+            services.AddSingleton<IMapper<Book, BookDTO>, BookToBookDTO>();
+            services.AddSingleton<IMapper<Hero, HeroDTO>, HeroToHeroDTO>();
+            services.AddSingleton<IMapper<Movie, MovieDTO>, MovieToMovieDTO>();
 
             services.AddTransient<IGetAllCommand<UserDTO>, GetUsersCommand>();
             services.AddTransient<IGetByIDCommand<UserDTO>, GetUserByIDCommand>();
@@ -68,10 +84,6 @@ namespace Services
                     {
                         hostCfg.Username("guest");
                         hostCfg.Password("guest");
-                    });
-                    factory.ReceiveEndpoint(cfg =>
-                    {
-                        cfg.ConfigureConsumer<FranchiseConsumer>(context);
                     });
                 });
                 cfg.AddRequestClient<FranchiseRequest>(new Uri("rabbitmq://localhost/getfranchise"));

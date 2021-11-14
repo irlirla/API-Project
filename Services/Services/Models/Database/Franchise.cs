@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Services.Models;
+using System.Collections.Generic;
 
-namespace FranchiseService.Models
+namespace Services.Models
 {
     public class Franchise
     {

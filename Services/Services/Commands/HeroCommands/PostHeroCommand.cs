@@ -7,9 +7,9 @@ namespace Services.Commands.HeroCommands
 {
     public class PostHeroCommand : IAsyncPostCommand<Hero>
     {
-        private readonly HeroRepo _repository;
+        private readonly IAsyncRepository<Hero> _repository;
 
-        public PostHeroCommand(HeroRepo repository)
+        public PostHeroCommand(IAsyncRepository<Hero> repository)
         {
             _repository = repository;
         }

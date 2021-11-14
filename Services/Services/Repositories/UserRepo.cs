@@ -9,14 +9,15 @@ namespace Services.Repositories
 {
     public class UserRepo : IRepository<User>
     {
-        const string str1 = "Success!";
-        const string str2 = "Something's wrong!";
+        public const string str1 = "Success!";
+        public const string str2 = "Something's wrong!";
 
+         
         private IMemoryCache _cache;
         private List<int> _key;
-        private readonly UserValidator _validator;
+        private readonly IUserValidator _validator;
 
-        public UserRepo(IMemoryCache cache, List<int> key, UserValidator validator)
+        public UserRepo(IMemoryCache cache, List<int> key, IUserValidator validator)
         {
             _cache = cache;
             _key = key;
@@ -25,7 +26,7 @@ namespace Services.Repositories
 
         public string Delete(int id)
         {
-            if (_cache.Get(id) is not null)
+            if (_cache.Get<User>(id) is not null)
             {
                 _cache.Remove(id);
                 _key.Remove(id);
@@ -65,7 +66,7 @@ namespace Services.Repositories
 
         public string Post(User user)
         {
-            if (user is not null && _cache.Get<User>(user.Id) is null && _validator.Validate(user).IsValid is true)
+            if (user is not null && _cache.Get<User>(user.Id) is null && _validator.Validate(user).IsValid)
             {
                 _cache.Set(user.Id, user);
                 _key.Add(user.Id);
@@ -79,10 +80,9 @@ namespace Services.Repositories
 
         public string Put(User user)
         {
-            if (user is not null && _validator.Validate(user).IsValid is true)
+            if (user is not null && _validator.Validate(user).IsValid)
             {
                 _cache.Set(user.Id, user);
-                _key.Add(user.Id);
                 return str1;
             }
             else

@@ -8,10 +8,10 @@ namespace Services.Commands.MovieCommands
 {
     public class GetMovieByIDCommand : IAsyncGetByIDCommand<MovieDTO>
     {
-        private readonly MovieRepo _repository;
+        private readonly IAsyncRepository<Movie> _repository;
         private readonly IMapper<Movie, MovieDTO> _mapper;
 
-        public GetMovieByIDCommand(MovieRepo repository, MovieToMovieDTO mapper)
+        public GetMovieByIDCommand(IAsyncRepository<Movie> repository, IMapper<Movie, MovieDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

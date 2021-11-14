@@ -9,10 +9,10 @@ namespace Services.Commands.UserCommands
 {
     public class GetUsersCommand : IGetAllCommand<UserDTO>
     {
-        private readonly UserRepo _repository;
+        private readonly IRepository<User> _repository;
         private readonly IMapper<User, UserDTO> _mapper;
 
-        public GetUsersCommand(UserRepo repository, UserToUserDTO mapper)
+        public GetUsersCommand(IRepository<User> repository, IMapper<User, UserDTO> mapper)
         {
             _repository = repository;
             _mapper = mapper;

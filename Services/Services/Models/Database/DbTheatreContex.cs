@@ -7,7 +7,6 @@ namespace Services.Models
     internal class DbTheatreContext : DbContext
     {
         public DbSet<Movie> Movies { get; set; }
-        //public DbSet<Franchise> Franchises { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -28,6 +27,11 @@ namespace Services.Models
                 builder.HasKey(x => x.ID);
                 builder.HasOne(x => x.FranchiseName).WithMany(x => x.Movies);
             }
+        }
+
+        public DbTheatreContext()
+        {
+            Database.Migrate();
         }
     }
 }
