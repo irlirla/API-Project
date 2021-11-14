@@ -27,10 +27,14 @@ namespace FranchiseService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IFranchiseValidator, FranchiseValidator>();
+            services.AddSingleton<IPostFranchiseRequestValidator, FranchisePostRequestValidator>();
+            services.AddSingleton<IPutFranchiseRequestValidator, FranchisePutRequestValidator>();
+            services.AddSingleton<IDeleteFranchiseRequestValidator, FranchiseDeleteRequestValidator>();
 
             services.AddScoped<IAsyncRepository<Franchise>, FranchiseRepo>();
 
             services.AddSingleton<IMapper<Franchise, FranchiseDTO>, FranchiseToFranchiseDTO>();
+            services.AddSingleton<IMapper<Franchise, FranchiseResponse>, FranchiseToFranchiseResponse>();
 
             services.AddTransient<IAsyncGetAllCommand<FranchiseDTO>, GetFranchisesCommand>();
             services.AddTransient<IAsyncGetByIDCommand<FranchiseDTO>, GetFranchiseByIDCommand>();

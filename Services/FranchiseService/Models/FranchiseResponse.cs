@@ -1,7 +1,7 @@
 ﻿using FranchiseService.Models;
 using System.Collections.Generic;
 
-namespace FranchiseService.Broker
+namespace FranchiseService.Models
 {
     public class FranchiseResponse
     {

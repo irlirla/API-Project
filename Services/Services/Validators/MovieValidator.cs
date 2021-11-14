@@ -23,6 +23,12 @@ namespace Services.Validators
                 .MaximumLength(100)
                 .Must(x => x.ToUpper() != "FRANCHISE")
                 .WithMessage("Please, try again to enter the Name of Franchise.");
+
+            RuleFor(x => x.FranchiseName.FranchiseID)
+                .NotNull()
+                .GreaterThan(-1)
+                .LessThan(int.MaxValue)
+                .WithMessage("Please, choose another id!");
         }
     }
 }

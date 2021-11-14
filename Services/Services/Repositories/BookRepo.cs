@@ -40,25 +40,29 @@ namespace Services.Repositories
         {
             List<Book> books = new();
             string[] line = new string[3];
-            try
+            if (File.Exists(text1))
             {
-                using StreamReader sr = new StreamReader(text1);
-                while (sr.Peek() > -1)
+                try
                 {
-                    line = sr.ReadLine().Split("; ");
-                    books.Add(new Book 
-                    { 
-                        ID = int.Parse(line[0]),
-                        Name = line[1],
-                        Author = line[2]
-                    });
+                    using StreamReader sr = new StreamReader(text1);
+                    while (sr.Peek() > -1)
+                    {
+                        line = sr.ReadLine().Split("; ");
+                        books.Add(new Book
+                        {
+                            ID = int.Parse(line[0]),
+                            Name = line[1],
+                            Author = line[2]
+                        });
+                    }
+                    return (books, str1);
                 }
-                return (books, str1);
+                catch (Exception e)
+                {
+                    return (books, e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                return (books, e.Message);
-            }
+            else return (books, str2);
         }
 
         public (Book, string) GetById(int id)

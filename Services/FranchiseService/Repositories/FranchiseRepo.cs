@@ -43,7 +43,7 @@ namespace FranchiseService.Repositories
 
         public async Task<string> Post(Franchise franchise)
         {
-            if (_validator.Validate(franchise).IsValid is true &&
+            if (/*_validator.Validate(franchise).IsValid is true &&*/
                 await Theatre.Franchises.AnyAsync(x => x.FranchiseID == franchise.FranchiseID) is false)
             {
                 await Theatre.Franchises.AddAsync(new Franchise());
@@ -58,16 +58,9 @@ namespace FranchiseService.Repositories
 
         public async Task<string> Put(Franchise franchise)
         {
-            if (_validator.Validate(franchise).IsValid is true)
-            {
-                await Theatre.Franchises.AddAsync(new Franchise());
-                await Theatre.SaveChangesAsync();
-                return str1;
-            }
-            else
-            {
-                return str2;
-            }
+            await Theatre.Franchises.AddAsync(new Franchise());
+            await Theatre.SaveChangesAsync();
+            return str1;
         }
     }
 }

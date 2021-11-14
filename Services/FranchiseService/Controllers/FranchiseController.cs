@@ -18,10 +18,22 @@ namespace FranchiseService.Controllers
         }
 
         [HttpGet("{id}")]
-        public Task<FranchiseDTO> GetById([FromServices] IAsyncGetByIDCommand<FranchiseDTO> cmd, [FromQuery] int id)
+        public Task<FranchiseDTO> GetById([FromServices] IAsyncGetByIDCommand<FranchiseDTO> cmd, int id)
         {
             return cmd.Execute(id);
         }
+
+        //[HttpGet("{id}")]
+        //public Task<FranchiseResponse> GetById([FromServices] IRequestClient<FranchiseRequest> req, int id)
+        //{
+        //  return (await req.GetResponse<FranchiseResponse>(new FranchiseRequest() {FranchiseID = id})).Message;
+        //}
+
+        //[HttpGet]
+        //public Task<FranchiseResponse> Get([FromServices] IRequestClient<FranchiseRequest> req, int id)
+        //{
+        //  return (await req.GetResponse<FranchiseResponse>(new FranchiseRequest())).Message;
+        //}
 
         [HttpGet]
         public Task<IEnumerable<FranchiseDTO>> Get([FromServices] IAsyncGetAllCommand<FranchiseDTO> cmd)
@@ -30,7 +42,7 @@ namespace FranchiseService.Controllers
         }
 
         [HttpDelete]
-        public Task Delete([FromServices] IAsyncDeleteCommand<Franchise> cmd, [FromQuery] int id)
+        public Task Delete([FromServices] IAsyncDeleteCommand<Franchise> cmd, int id)
         {
             return cmd.Execute(id);
         }

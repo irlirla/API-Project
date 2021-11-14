@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace UnitTests
 {
-    public class UserTests
+    public class UserRepoTests
     {
         private IRepository<User> _repository;
         private AutoMocker autoMock;
@@ -49,8 +49,10 @@ namespace UnitTests
             .Returns(true);
             var result = _repository.Get();
 
+            Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Item1.Count());
-
+            Assert.Contains(user, result.Item1.ToList());
+            Assert.NotNull(result.Item2[0].Equals(user));
         }
 
         [Test]
@@ -111,28 +113,28 @@ namespace UnitTests
         }
         #endregion
         #region FailGetUsers
-        [Test]
-        public void TestNullReferenceCacheAllCommandsUser()
-        {
-            _repository = new UserRepo(null, null, null);
-            User user = new();
-            object obj;
-            autoMock
-            .Setup<IMemoryCache, bool>(x => x.TryGetValue(It.IsAny<object>(), out obj))
-            .Callback(new MockOutDelegate((object key, out object value) => value = user))
-            .Returns(true);
-            var resultGet = _repository.Get();
-            //var resultGetbyId = _repository.GetById(user.Id);
-            var resultPost = _repository.Post(user);
-            var resultPut = _repository.Put(user);
-            var resultDelete = _repository.Delete(user.Id);
+        //[Test]
+        //public void TestNullReferenceCacheAllCommandsUser()
+        //{
+        //    _repository = new UserRepo(null, null, null);
+        //    User user = new();
+        //    object obj;
+        //    autoMock
+        //    .Setup<IMemoryCache, bool>(x => x.TryGetValue(It.IsAny<object>(), out obj))
+        //    .Callback(new MockOutDelegate((object key, out object value) => value = user))
+        //    .Returns(true);
+        //    var resultGet = _repository.Get();
+        //    var resultGetbyId = _repository.GetById(user.Id);
+        //    var resultPost = _repository.Post(user);
+        //    var resultPut = _repository.Put(user);
+        //    var resultDelete = _repository.Delete(user.Id);
 
-            Assert.AreEqual("Something's wrong!", resultGet.Item2);
-            //Assert.AreEqual("Something's wrong!", resultGetbyId.Item2);
-            Assert.AreEqual("Something's wrong!", resultPost);
-            Assert.AreEqual("Something's wrong!", resultPut);
-            Assert.AreEqual("Something's wrong!", resultDelete);
-        }
+        //    Assert.AreEqual("Something's wrong!", resultGet.Item2);
+        //    Assert.AreEqual("Something's wrong!", resultGetbyId.Item2);
+        //    Assert.AreEqual("Something's wrong!", resultPost);
+        //    Assert.AreEqual("Something's wrong!", resultPut);
+        //    Assert.AreEqual("Something's wrong!", resultDelete);
+        //}
 
         [Test]
         public void TestNullReferenceCacheGetUsers()
@@ -160,6 +162,16 @@ namespace UnitTests
             var resultGetbyId = _repository.GetById(user.Id);
 
             Assert.AreEqual("Something's wrong!", resultGetbyId.Item2);
+        }
+
+        [Test]
+        public void TestNullReferenceCachePostUser()
+        {
+            _repository = new UserRepo(null, null, null);
+            User user = new();
+            var resultPost = _repository.Post(user);
+
+            Assert.AreEqual("Something's wrong!", resultPost);
         }
         #endregion
     }
